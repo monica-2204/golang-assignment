@@ -1,15 +1,48 @@
 package config
 
-// Config holds configuration for the application
+import (
+	"log"
+	"os"
+
+	"github.com/joho/godotenv"
+)
+
+// Config holds configuration values
 type Config struct {
-	DatabaseDSN string // Database Data Source Name
+	DatabaseUser     string
+	DatabasePassword string
+	DatabaseHost     string
+	DatabasePort     string
+	DatabaseName     string
+	JWTSecret        string
+	ServerPort       string
+	LogLevel         string
 }
 
-// LoadConfig loads configuration from a file or environment variables
+// LoadConfig loads configuration from environment variables
 func LoadConfig() (*Config, error) {
-	// Implement your configuration loading logic here
-	// For example, you can load from a file or environment variables
-	return &Config{
-		DatabaseDSN: "user:password@tcp(localhost:3306)/dbname",
-	}, nil
+	if err := godotenv.Load(); err != nil {
+		log.Println("No .env file found, using default or environment variables")
+	}
+
+	cfg := &Config{
+		DatabaseUser:     getEnv("DATABASE_USER", "root"),
+		DatabasePassword: getEnv("DATABASE_PASSWORD", ""),
+		DatabaseHost:     getEnv("DATABASE_HOST", "localhost"),
+		DatabasePort:     getEnv("DATABASE_PORT", "3306"),
+		DatabaseName:     getEnv("DATABASE_NAME", "your_database"),
+		JWTSecret:        getEnv("JWT_SECRET", "default_secret"),
+		ServerPort:       getEnv("SERVER_PORT", "8080"),
+		LogLevel:         getEnv("LOG_LEVEL", "info"),
+	}
+
+	return cfg, nil
+}
+
+// getEnv retrieves the value of an environment variable or returns a default value if not set
+func getEnv(key, defaultValue string) string {
+	if value, exists := os.LookupEnv(key); exists {
+		return value
+	}
+	return defaultValue
 }

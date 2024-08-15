@@ -1,10 +1,13 @@
 package main
 
 import (
+	"context"
+	"fmt"
 	"golang-assignment/config"
 	"golang-assignment/internal/database"
 	"golang-assignment/internal/student"
-	transportHTTP "golang-assignment/internal/transport"
+	"golang-assignment/internal/transport"
+	"golang-assignment/utils"
 
 	logrus "github.com/sirupsen/logrus"
 )
@@ -21,7 +24,11 @@ func Run() error {
 		logrus.Error("failed to load configuration")
 		return err
 	}
-
+	token, err := utils.GenerateJWT("user123") // Replace "user123" with the user ID or relevant data
+	if err != nil {
+		logrus.Fatalf("Failed to generate JWT: %v", err)
+	}
+	fmt.Println("Generated JWT Token:", token)
 	// Initialize database connection
 	db, err := database.InitDatabase(cfg)
 	if err != nil {
@@ -33,11 +40,15 @@ func Run() error {
 	studentStore := database.NewStudentStore(db)
 	studentService := student.NewService(studentStore)
 
+	ctx := context.Background()
+	if err := studentStore.Ping(ctx); err != nil {
+		logrus.Fatalf("Database ping failed: %v", err)
+	}
 	// Initialize the HTTP handler
-	handler := transportHTTP.NewStudentHandler(studentService)
+	handler := transport.NewHandler(studentService)
 
 	// Start the HTTP server
-	if err := transportHTTP.Serve(handler); err != nil {
+	if err := handler.Serve(); err != nil {
 		logrus.Error("failed to gracefully serve our application")
 		return err
 	}
@@ -51,3 +62,10 @@ func main() {
 		logrus.Fatal("Error starting up our REST API")
 	}
 }
+
+//curl -X GET http://localhost:8080/api/v1/student/1 -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoidXNlcjEyMyIsImV4cCI6MTcyMzgwOTUxMX0.T15UN2f28tSu-lagsMIcV8u9Qd2bn_PRKmDCWrzoxkU"
+
+//C:\Users\ADMIN\Desktop\golang-assignment>curl -X POST http://localhost:8080/api/v1/student ^
+//More?  -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoidXNlcjEyMyIsImV4cCI6MTcyMzgyOTcxOH0.cOmkk5WmPoDRKlWP4iZQtV_I508ST3Xz3C48iJYyqIM" ^
+//More? -H "Content-Type: application/json" ^
+//More?  -d "{\"id\":\"22\" , \"name\": \"kavya\", \"email\": \"kavya@gmail.com\", \"age\": 21, \"course\": \"Bsc\"}"

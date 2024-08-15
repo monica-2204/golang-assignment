@@ -3,86 +3,97 @@ package database
 import (
 	"context"
 	"database/sql"
-	"errors"
+	"fmt"
+	"time"
+
+	//"github.com/jmoiron/sqlx"
 	"golang-assignment/internal/student"
 )
 
-// StudentStore - implements the student.StudentStore interface
-type StudentStore struct {
-	DB *sql.DB
+type StudentRow struct {
+	ID        string         `db:"id"`
+	CreatedBy sql.NullString `db:"created_by"`
+	CreatedOn sql.NullTime   `db:"created_on"`
+	UpdatedBy sql.NullString `db:"updated_by"`
+	UpdatedOn sql.NullTime   `db:"updated_on"`
+	Name      string         `db:"name"`
+	Email     string         `db:"email"`
+	Age       int            `db:"age"`
+	Course    string         `db:"course"`
 }
 
-// NewStudentStore - returns a new instance of StudentStore
-func NewStudentStore(db *sql.DB) *StudentStore {
-	return &StudentStore{DB: db}
+func convertStudentRowToStudent(r StudentRow) student.Student {
+	return student.Student{
+		ID:        r.ID,
+		CreatedBy: r.CreatedBy.String,
+		CreatedOn: r.CreatedOn.Time,
+		UpdatedBy: r.UpdatedBy.String,
+		UpdatedOn: r.UpdatedOn.Time,
+		Name:      r.Name,
+		Email:     r.Email,
+		Age:       r.Age,
+		Course:    r.Course,
+	}
 }
 
-// GetStudent - retrieves a student by ID from the database
-func (store *StudentStore) GetStudent(ctx context.Context, id string) (student.Student, error) {
-	var s student.Student
-	query := `SELECT id, created_by, created_on, updated_by, updated_on, name, email, age, course FROM students WHERE id = ?`
-
-	row := store.DB.QueryRowContext(ctx, query, id)
-	err := row.Scan(&s.ID, &s.CreatedBy, &s.CreatedOn, &s.UpdatedBy, &s.UpdatedOn, &s.Name, &s.Email, &s.Age, &s.Course)
+// GetStudent - retrieves a student from the database by ID
+func (s *StudentStore) GetStudent(ctx context.Context, id string) (student.Student, error) {
+	var studentRow StudentRow
+	query := "SELECT id, created_by, created_on, updated_by, updated_on, name, email, age, course FROM students WHERE id = ?"
+	err := s.DB.GetContext(ctx, &studentRow, query, id)
 	if err != nil {
 		if err == sql.ErrNoRows {
-			return s, errors.New("student with id " + id + " not found")
+			return student.Student{}, fmt.Errorf("student with ID %s not found", id)
 		}
-		return s, errors.New("error fetching student with id " + id + ": " + err.Error())
+		return student.Student{}, fmt.Errorf("an error occurred fetching the student: %w", err)
 	}
 
-	return s, nil
+	return convertStudentRowToStudent(studentRow), nil
 }
 
 // PostStudent - adds a new student to the database
-func (store *StudentStore) PostStudent(ctx context.Context, s student.Student) (student.Student, error) {
-	query := `INSERT INTO students (id, created_by, created_on, updated_by, updated_on, name, email, age, course) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`
+func (d *StudentStore) PostStudent(ctx context.Context, stud student.Student) (student.Student, error) {
+	// Insert implementation
+	//stud.ID = generateUniqueID()
 
-	_, err := store.DB.ExecContext(ctx, query, s.ID, s.CreatedBy, s.CreatedOn, s.UpdatedBy, s.UpdatedOn, s.Name, s.Email, s.Age, s.Course)
+	stud.CreatedBy = "admin" // Assumes you have a function to get the user ID from the context
+	stud.CreatedOn = time.Now().UTC()
+	stud.UpdatedBy = stud.CreatedBy
+	stud.UpdatedOn = stud.CreatedOn
+	_, err := d.DB.NamedExecContext(ctx, `INSERT INTO students (id, created_by, created_on, updated_by, updated_on, name, email, age, course)
+        VALUES (:id, :created_by, :created_on, :updated_by, :updated_on, :name, :email, :age, :course)`,
+		stud)
 	if err != nil {
-		return s, errors.New("error inserting student: " + err.Error())
+		return student.Student{}, fmt.Errorf("failed to insert student: %w", err)
 	}
-
-	return s, nil
+	return stud, nil
 }
 
 // UpdateStudent - updates an existing student in the database
-func (store *StudentStore) UpdateStudent(ctx context.Context, id string, s student.Student) (student.Student, error) {
-	query := `UPDATE students SET name = ?, email = ?, age = ?, course = ?, updated_by = ?, updated_on = ? WHERE id = ?`
-
-	_, err := store.DB.ExecContext(ctx, query, s.Name, s.Email, s.Age, s.Course, s.UpdatedBy, s.UpdatedOn, id)
+func (d *StudentStore) UpdateStudent(ctx context.Context, id string, stud student.Student) (student.Student, error) {
+	// Update implementation
+	_, err := d.DB.NamedExecContext(ctx, `UPDATE students SET
+        created_by = :created_by,
+        created_on = :created_on,
+        updated_by = :updated_by,
+        updated_on = :updated_on,
+        name = :name,
+        email = :email,
+        age = :age,
+        course = :course
+        WHERE id = :id`,
+		stud)
 	if err != nil {
-		return s, errors.New("error updating student with id " + id + ": " + err.Error())
+		return student.Student{}, fmt.Errorf("failed to update student: %w", err)
 	}
-
-	return s, nil
+	return stud, nil
 }
 
-// DeleteStudent - deletes a student from the database by ID
-func (store *StudentStore) DeleteStudent(ctx context.Context, id string) error {
-	query := `DELETE FROM students WHERE id = ?`
-
-	result, err := store.DB.ExecContext(ctx, query, id)
+// DeleteStudent - deletes a student from the database
+func (s *StudentStore) DeleteStudent(ctx context.Context, id string) error {
+	_, err := s.DB.ExecContext(ctx, "DELETE FROM students WHERE id = ?", id)
 	if err != nil {
-		return errors.New("error deleting student with id " + id + ": " + err.Error())
-	}
-
-	rowsAffected, err := result.RowsAffected()
-	if err != nil {
-		return errors.New("error checking rows affected when deleting student with id " + id + ": " + err.Error())
-	}
-
-	if rowsAffected == 0 {
-		return errors.New("no student found with id " + id + " to delete")
-	}
-
-	return nil
-}
-
-// Ping - checks if the database is reachable
-func (store *StudentStore) Ping(ctx context.Context) error {
-	if err := store.DB.PingContext(ctx); err != nil {
-		return errors.New("database ping failed: " + err.Error())
+		return fmt.Errorf("failed to delete student: %w", err)
 	}
 	return nil
 }

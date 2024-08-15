@@ -20,15 +20,15 @@ var (
 
 // Student - defines our student structure
 type Student struct {
-	ID        string    `json:"id"`
-	CreatedBy string    `json:"created_by"`
-	CreatedOn time.Time `json:"created_on"`
-	UpdatedBy string    `json:"updated_by"`
-	UpdatedOn time.Time `json:"updated_on"`
-	Name      string    `json:"name"`
-	Email     string    `json:"email"`
-	Age       int       `json:"age"`
-	Course    string    `json:"course"`
+	ID        string    `json:"id" db:"id"`
+	CreatedBy string    `json:"created_by" db:"created_by"`
+	CreatedOn time.Time `json:"created_on" db:"created_on"`
+	UpdatedBy string    `json:"updated_by" db:"updated_by"`
+	UpdatedOn time.Time `json:"updated_on" db:"updated_on"`
+	Name      string    `json:"name" db:"name"`
+	Email     string    `json:"email" db:"email"`
+	Age       int       `json:"age" db:"age"`
+	Course    string    `json:"course" db:"course"`
 }
 
 // StudentStore - defines the interface we need our student storage
