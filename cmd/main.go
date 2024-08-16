@@ -69,3 +69,10 @@ func main() {
 //More?  -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoidXNlcjEyMyIsImV4cCI6MTcyMzgyOTcxOH0.cOmkk5WmPoDRKlWP4iZQtV_I508ST3Xz3C48iJYyqIM" ^
 //More? -H "Content-Type: application/json" ^
 //More?  -d "{\"id\":\"22\" , \"name\": \"kavya\", \"email\": \"kavya@gmail.com\", \"age\": 21, \"course\": \"Bsc\"}"
+
+//curl -X DELETE http://localhost:8080/api/v1/student/1 -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoidXNlcjEyMyIsImV4cCI6MTcyMzg3MDcxNn0.MfkdH5hPGeTZAyH2ILowlNnFgJaXh45DVDK8RP0j6XU"
+
+//curl -X PUT http://localhost:8080/api/v1/student/22 ^
+//More? -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoidXNlcjEyMyIsImV4cCI6MTcyMzg3OTI3OH0.O47ozTzNTgxjfKC1H-haPGY2Jkr1pyIo_gISM5_cAuY" ^
+//More? -H "Content-Type: application/json" ^
+//More? -d "{\"id\": \"22\",\"name\": \"deepa\", \"email\": \"deepa@gmail.com\",\"age\": 25,\"course\": \"MBA\"}"
