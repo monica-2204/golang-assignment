@@ -132,22 +132,37 @@ func (h *Handler) UpdateStudent(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// Validate the incoming request
 	validate := validator.New()
 	if err := validate.Struct(updateStuRequest); err != nil {
 		http.Error(w, "Validation failed", http.StatusBadRequest)
 		return
 	}
 
-	stu := studentFromUpdateStudentRequest(updateStuRequest)
-
-	stu, err := h.Service.UpdateStudent(r.Context(), studentID, stu)
+	existingStudent, err := h.Service.GetStudent(r.Context(), studentID)
 	if err != nil {
-		log.Error(err.Error())
+		http.Error(w, "Student not found", http.StatusNotFound)
+		return
+	}
+	// Convert the request to a Student struct
+	stu := studentFromUpdateStudentRequest(updateStuRequest)
+	stu.CreatedBy = existingStudent.CreatedBy
+	stu.ID = studentID      // Ensure the ID is set for updating the correct student
+	stu.UpdatedBy = "admin" // Or get this from context
+	stu.UpdatedOn = time.Now().UTC()
+
+	// Attempt to update the student
+	updatedStu, err := h.Service.UpdateStudent(r.Context(), studentID, stu)
+	if err != nil {
+		log.Printf("Error updating student: %v", err)
 		http.Error(w, "Failed to update student", http.StatusInternalServerError)
 		return
 	}
 
-	if err := json.NewEncoder(w).Encode(stu); err != nil {
+	// Respond with the updated student information
+	w.Header().Set("Content-Type", "application/json")
+	if err := json.NewEncoder(w).Encode(updatedStu); err != nil {
+		log.Printf("Error encoding response: %v", err)
 		http.Error(w, "Failed to encode response", http.StatusInternalServerError)
 	}
 }

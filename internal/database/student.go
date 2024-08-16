@@ -71,21 +71,41 @@ func (d *StudentStore) PostStudent(ctx context.Context, stud student.Student) (s
 
 // UpdateStudent - updates an existing student in the database
 func (d *StudentStore) UpdateStudent(ctx context.Context, id string, stud student.Student) (student.Student, error) {
-	// Update implementation
-	_, err := d.DB.NamedExecContext(ctx, `UPDATE students SET
-        created_by = :created_by,
-        created_on = :created_on,
+	// Ensure the ID matches between the request and the struct
+	if id != stud.ID {
+		return student.Student{}, fmt.Errorf("mismatching student ID")
+	}
+
+	// Updating fields typically meant for creation should not be modified here
+	stud.UpdatedBy = "admin" // You might want to fetch this from context or another reliable source
+	stud.UpdatedOn = time.Now().UTC()
+
+	// Update only necessary fields
+	query := `UPDATE students SET
+		created_by = :created_by,
         updated_by = :updated_by,
         updated_on = :updated_on,
         name = :name,
         email = :email,
         age = :age,
         course = :course
-        WHERE id = :id`,
-		stud)
+        WHERE id = :id`
+
+	// Execute the query
+	result, err := d.DB.NamedExecContext(ctx, query, stud)
 	if err != nil {
 		return student.Student{}, fmt.Errorf("failed to update student: %w", err)
 	}
+
+	// Check if the update affected any rows
+	rowsAffected, err := result.RowsAffected()
+	if err != nil {
+		return student.Student{}, fmt.Errorf("could not determine rows affected: %w", err)
+	}
+	if rowsAffected == 0 {
+		return student.Student{}, fmt.Errorf("no rows were updated, student with ID %s might not exist", id)
+	}
+
 	return stud, nil
 }
 
