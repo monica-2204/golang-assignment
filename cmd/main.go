@@ -71,3 +71,5 @@ func main() {
 //More? -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoidXNlcjEyMyIsImV4cCI6MTcyMzg3OTI3OH0.O47ozTzNTgxjfKC1H-haPGY2Jkr1pyIo_gISM5_cAuY" ^
 //More? -H "Content-Type: application/json" ^
 //More? -d "{\"id\": \"22\",\"name\": \"deepa\", \"email\": \"deepa@gmail.com\",\"age\": 25,\"course\": \"MBA\"}"
+
+//curl -X POST http://localhost:8080/api/v1/login  -H "Content-Type: application/json" -d "{\"user_id\": \"user123\", \"password\": \"password\"}"
