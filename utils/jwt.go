@@ -7,7 +7,7 @@ import (
 	"github.com/golang-jwt/jwt"
 )
 
-var jwtKey = []byte("3x@mP1e$eCr3t!VeRy$l0Ng@p@$sw0Rd") // Ensure this matches your .env or configuration
+var JwtKey = []byte("3x@mP1e$eCr3t!VeRy$l0Ng@p@$sw0Rd")
 
 type Claims struct {
 	UserID string `json:"user_id"`
@@ -23,13 +23,13 @@ func GenerateJWT(userID string) (string, error) {
 		},
 	}
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-	return token.SignedString(jwtKey)
+	return token.SignedString(JwtKey)
 }
 
 func ValidateJWT(tokenString string) (*Claims, error) {
 	claims := &Claims{}
 	token, err := jwt.ParseWithClaims(tokenString, claims, func(token *jwt.Token) (interface{}, error) {
-		return jwtKey, nil
+		return JwtKey, nil
 	})
 	if err != nil {
 		return nil, err

@@ -2,12 +2,10 @@ package main
 
 import (
 	"context"
-	"fmt"
 	"golang-assignment/config"
 	"golang-assignment/internal/database"
 	"golang-assignment/internal/student"
 	"golang-assignment/internal/transport"
-	"golang-assignment/utils"
 
 	logrus "github.com/sirupsen/logrus"
 )
@@ -18,17 +16,13 @@ func Run() error {
 	logrus.SetFormatter(&logrus.JSONFormatter{})
 	logrus.Info("Setting up our application")
 
-	// Load the configuration (assuming this function exists and returns the necessary configuration)
+	// Load the configuration
 	cfg, err := config.LoadConfig()
 	if err != nil {
 		logrus.Error("failed to load configuration")
 		return err
 	}
-	token, err := utils.GenerateJWT("user123") // Replace "user123" with the user ID or relevant data
-	if err != nil {
-		logrus.Fatalf("Failed to generate JWT: %v", err)
-	}
-	fmt.Println("Generated JWT Token:", token)
+
 	// Initialize database connection
 	db, err := database.InitDatabase(cfg)
 	if err != nil {
@@ -60,6 +54,7 @@ func main() {
 	if err := Run(); err != nil {
 		logrus.Error(err)
 		logrus.Fatal("Error starting up our REST API")
+
 	}
 }
 

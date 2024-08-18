@@ -6,8 +6,9 @@ import (
 	"fmt"
 	"time"
 
-	//"github.com/jmoiron/sqlx"
 	"golang-assignment/internal/student"
+
+	logrus "github.com/sirupsen/logrus"
 )
 
 type StudentRow struct {
@@ -36,7 +37,6 @@ func convertStudentRowToStudent(r StudentRow) student.Student {
 	}
 }
 
-// GetStudent - retrieves a student from the database by ID
 func (s *StudentStore) GetStudent(ctx context.Context, id string) (student.Student, error) {
 	var studentRow StudentRow
 	query := "SELECT id, created_by, created_on, updated_by, updated_on, name, email, age, course FROM students WHERE id = ?"
@@ -51,14 +51,11 @@ func (s *StudentStore) GetStudent(ctx context.Context, id string) (student.Stude
 	return convertStudentRowToStudent(studentRow), nil
 }
 
-// PostStudent - adds a new student to the database
 func (d *StudentStore) PostStudent(ctx context.Context, stud student.Student) (student.Student, error) {
-	// Insert implementation
-	//stud.ID = generateUniqueID()
 
-	stud.CreatedBy = "admin" // Assumes you have a function to get the user ID from the context
-	stud.CreatedOn = time.Now().UTC()
-	stud.UpdatedBy = stud.CreatedBy
+	logrus.Printf("Creating student: CreatedBy=%s, UpdatedBy=%s", stud.CreatedBy, stud.UpdatedBy)
+
+	stud.CreatedOn = time.Now()
 	stud.UpdatedOn = stud.CreatedOn
 	_, err := d.DB.NamedExecContext(ctx, `INSERT INTO students (id, created_by, created_on, updated_by, updated_on, name, email, age, course)
         VALUES (:id, :created_by, :created_on, :updated_by, :updated_on, :name, :email, :age, :course)`,
@@ -69,16 +66,11 @@ func (d *StudentStore) PostStudent(ctx context.Context, stud student.Student) (s
 	return stud, nil
 }
 
-// UpdateStudent - updates an existing student in the database
 func (d *StudentStore) UpdateStudent(ctx context.Context, id string, stud student.Student) (student.Student, error) {
-	// Ensure the ID matches between the request and the struct
+
 	if id != stud.ID {
 		return student.Student{}, fmt.Errorf("mismatching student ID")
 	}
-
-	// Updating fields typically meant for creation should not be modified here
-	stud.UpdatedBy = "admin" // You might want to fetch this from context or another reliable source
-	stud.UpdatedOn = time.Now().UTC()
 
 	// Update only necessary fields
 	query := `UPDATE students SET
@@ -97,7 +89,6 @@ func (d *StudentStore) UpdateStudent(ctx context.Context, id string, stud studen
 		return student.Student{}, fmt.Errorf("failed to update student: %w", err)
 	}
 
-	// Check if the update affected any rows
 	rowsAffected, err := result.RowsAffected()
 	if err != nil {
 		return student.Student{}, fmt.Errorf("could not determine rows affected: %w", err)
@@ -109,7 +100,6 @@ func (d *StudentStore) UpdateStudent(ctx context.Context, id string, stud studen
 	return stud, nil
 }
 
-// DeleteStudent - deletes a student from the database
 func (s *StudentStore) DeleteStudent(ctx context.Context, id string) error {
 	_, err := s.DB.ExecContext(ctx, "DELETE FROM students WHERE id = ?", id)
 	if err != nil {

@@ -22,6 +22,8 @@ type StudentService interface {
 	UpdateStudent(ctx context.Context, ID string, newStu student.Student) (student.Student, error)
 	DeleteStudent(ctx context.Context, ID string) error
 	ReadyCheck(ctx context.Context) error
+	AuthenticateUser(ctx context.Context, userID, password string) (student.User, error) // Update here
+	GenerateJWT(user student.User) (string, error)
 }
 
 // GetStudent - retrieves a student by ID
@@ -55,16 +57,16 @@ type PostStudentRequest struct {
 	Email     string    `json:"email" validate:"required,email"`
 	Age       int       `json:"age" validate:"required,gt=0"`
 	Course    string    `json:"course" validate:"required"`
-	CreatedBy string    `json:"created_by"` // Optional or auto-managed
-	CreatedOn time.Time `json:"created_on"` // Optional or auto-managed
-	UpdatedBy string    `json:"updated_by"` // Optional or auto-managed
-	UpdatedOn time.Time `json:"updated_on"` // Optional or auto-managed
+	CreatedBy string    `json:"created_by"`
+	CreatedOn time.Time `json:"created_on"`
+	UpdatedBy string    `json:"updated_by"`
+	UpdatedOn time.Time `json:"updated_on"`
 }
 
 // studentFromPostStudentRequest converts PostStudentRequest to student.Student
 func studentFromPostStudentRequest(u PostStudentRequest) student.Student {
 	return student.Student{
-		ID:     u.ID, // Generate or handle ID
+		ID:     u.ID,
 		Name:   u.Name,
 		Email:  u.Email,
 		Age:    u.Age,
@@ -87,9 +89,11 @@ func (h *Handler) PostStudent(w http.ResponseWriter, r *http.Request) {
 	}
 
 	stu := studentFromPostStudentRequest(postStuReq)
-	stu.CreatedBy = util.GetCurrentUserID(r.Context()) // Assuming util.GetCurrentUserID is correctly defined
+	stu.CreatedBy = util.GetCurrentUserID(r.Context())
 	stu.UpdatedBy = stu.CreatedBy
-	stu.CreatedOn = time.Now().UTC()
+	log.Printf("userID: %s", stu.CreatedBy)
+
+	stu.CreatedOn = time.Now()
 	stu.UpdatedOn = stu.CreatedOn
 	stu, err := h.Service.PostStudent(r.Context(), stu)
 	if err != nil {
@@ -147,9 +151,9 @@ func (h *Handler) UpdateStudent(w http.ResponseWriter, r *http.Request) {
 	// Convert the request to a Student struct
 	stu := studentFromUpdateStudentRequest(updateStuRequest)
 	stu.CreatedBy = existingStudent.CreatedBy
-	stu.ID = studentID      // Ensure the ID is set for updating the correct student
-	stu.UpdatedBy = "admin" // Or get this from context
-	stu.UpdatedOn = time.Now().UTC()
+	stu.ID = studentID // Ensure the ID is set for updating the correct student
+	stu.UpdatedBy = util.GetCurrentUserID(r.Context())
+	stu.UpdatedOn = time.Now()
 
 	// Attempt to update the student
 	updatedStu, err := h.Service.UpdateStudent(r.Context(), studentID, stu)

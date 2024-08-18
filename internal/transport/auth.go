@@ -11,7 +11,6 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-// JWTAuth - a handy middleware function that will provide basic auth around specific endpoints
 func JWTAuth(next http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		authHeader := r.Header.Get("Authorization")
@@ -39,7 +38,6 @@ func JWTAuth(next http.HandlerFunc) http.HandlerFunc {
 	}
 }
 
-// validateToken - validates an incoming JWT token
 func validateToken(accessToken string) bool {
 	mySigningKey := []byte(os.Getenv("JWT_SECRET"))
 	if len(mySigningKey) == 0 {
@@ -62,7 +60,6 @@ func validateToken(accessToken string) bool {
 	return token.Valid
 }
 
-// unauthorizedResponse - sends a JSON unauthorized response
 func unauthorizedResponse(w http.ResponseWriter, message string) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusUnauthorized)

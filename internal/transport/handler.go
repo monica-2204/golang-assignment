@@ -32,19 +32,14 @@ func NewHandler(service StudentService) *Handler {
 	}
 
 	h.Router = mux.NewRouter()
-	// Sets up our middleware functions
 	h.Router.Use(JSONMiddleware)
-	// We also want to log every incoming request
 	h.Router.Use(LoggingMiddleware)
-	// We want to timeout all requests that take longer than 15 seconds
 	h.Router.Use(TimeoutMiddleware)
-	//h.Router.Use(UserIDMiddleware)
 	// Set up the routes
 	h.mapRoutes()
 
 	h.Server = &http.Server{
-		Addr: "0.0.0.0:8080",
-		// Good practice to set timeouts to avoid Slowloris attacks.
+		Addr:         "0.0.0.0:8080",
 		WriteTimeout: time.Second * 15,
 		ReadTimeout:  time.Second * 15,
 		IdleTimeout:  time.Second * 60,
@@ -58,10 +53,12 @@ func NewHandler(service StudentService) *Handler {
 func (h *Handler) mapRoutes() {
 	h.Router.HandleFunc("/alive", h.AliveCheck).Methods("GET")
 	h.Router.HandleFunc("/ready", h.ReadyCheck).Methods("GET")
-	h.Router.HandleFunc("/api/v1/student", JWTAuth(h.PostStudent)).Methods("POST")
+	h.Router.HandleFunc("/api/v1/student", JWTAuth(UserIDMiddleware(h.PostStudent))).Methods("POST")
 	h.Router.HandleFunc("/api/v1/student/{id}", JWTAuth(h.GetStudent)).Methods("GET")
-	h.Router.HandleFunc("/api/v1/student/{id}", JWTAuth(h.UpdateStudent)).Methods("PUT")
+	h.Router.HandleFunc("/api/v1/student/{id}", JWTAuth(UserIDMiddleware(h.UpdateStudent))).Methods("PUT")
 	h.Router.HandleFunc("/api/v1/student/{id}", JWTAuth(h.DeleteStudent)).Methods("DELETE")
+
+	h.Router.HandleFunc("/api/v1/login", h.Login).Methods("POST")
 }
 
 func (h *Handler) AliveCheck(w http.ResponseWriter, r *http.Request) {
@@ -92,12 +89,10 @@ func (h *Handler) Serve() error {
 		}
 	}()
 
-	// To catch the OS Kill interrupt signal
 	c := make(chan os.Signal, 1)
 	signal.Notify(c, os.Interrupt)
 	<-c
 
-	// Create a deadline to wait for
 	ctx, cancel := context.WithTimeout(context.Background(), 15*time.Second)
 	defer cancel()
 	h.Server.Shutdown(ctx)

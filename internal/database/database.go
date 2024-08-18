@@ -2,16 +2,13 @@ package database
 
 import (
 	"context"
-	//"database/sql"
-	//"errors"
 	"fmt"
 	"golang-assignment/config"
 
-	_ "github.com/go-sql-driver/mysql" // Import the MySQL driver
+	_ "github.com/go-sql-driver/mysql"
 	"github.com/jmoiron/sqlx"
 )
 
-// Declare db as a global variable
 var db *sqlx.DB
 
 // InitDatabase initializes the database connection using the provided configuration.

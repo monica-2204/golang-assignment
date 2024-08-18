@@ -27,11 +27,11 @@ func LoadConfig() (*Config, error) {
 
 	cfg := &Config{
 		DatabaseUser:     getEnv("DATABASE_USER", "root"),
-		DatabasePassword: getEnv("DATABASE_PASSWORD", ""),
+		DatabasePassword: getEnv("DATABASE_PASSWORD", "Monu@2002"),
 		DatabaseHost:     getEnv("DATABASE_HOST", "localhost"),
 		DatabasePort:     getEnv("DATABASE_PORT", "3306"),
-		DatabaseName:     getEnv("DATABASE_NAME", "your_database"),
-		JWTSecret:        getEnv("JWT_SECRET", "default_secret"),
+		DatabaseName:     getEnv("DATABASE_NAME", "student"),
+		JWTSecret:        getEnv("JWT_SECRET", "3x@mP1e$eCr3t!VeRy$l0Ng@p@$sw0Rd"),
 		ServerPort:       getEnv("SERVER_PORT", "8080"),
 		LogLevel:         getEnv("LOG_LEVEL", "info"),
 	}
