@@ -10,16 +10,14 @@
 
 2. config (config/config.go): This file will manage database configuration settings.
 
-3. internal 
-    student
+3. internal/student
     * (internal/student/student.go): This will handle student-related logic and data models.
     * (internal/student/login.go): This will authenticate the user and calls a method to generate JWT token.
 
-4. internal
-    database (internal/database/student.go and internal/database/database.go): These files will manage database operations and connections.
+4. internal/database 
+    * (internal/database/student.go and internal/database/database.go): These files will manage database operations and connections.
 
-5. internal
-    transport
+5. internal/transport
     * (internal/transport/auth.go): This file handles JWT authentication.
     * (internal/transport/handler.go) : This file sets up and manages the HTTP server, routing, and middleware for handling student-related API requests, including CORS, logging, and authentication.
     * (internal/transport/login.go): This file handles user login by validating credentials, authenticating the user, and generating a JWT token for successful logins.
