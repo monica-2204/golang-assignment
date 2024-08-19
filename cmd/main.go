@@ -6,15 +6,22 @@ import (
 	"golang-assignment/internal/database"
 	"golang-assignment/internal/student"
 	"golang-assignment/internal/transport"
+	"os"
 
 	logrus "github.com/sirupsen/logrus"
 )
 
 // Run - sets up our application
 func Run() error {
-	// Set up logging format to JSON
-	logrus.SetFormatter(&logrus.JSONFormatter{})
+
 	logrus.Info("Setting up our application")
+	// Set up logging format to JSON and output only to a file
+	logFile, err := os.OpenFile("app.log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
+	if err != nil {
+		logrus.Fatalf("Failed to open log file: %v", err)
+	}
+	logrus.SetOutput(logFile)
+	logrus.SetFormatter(&logrus.JSONFormatter{})
 
 	// Load the configuration
 	cfg, err := config.LoadConfig()

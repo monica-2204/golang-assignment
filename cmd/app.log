@@ -1,0 +1,12 @@
+{"level":"info","msg":"setting up our handler","time":"2024-08-19T13:52:32+05:30"}
+{"level":"info","msg":"Received request: POST /api/v1/login","time":"2024-08-19T13:52:57+05:30"}
+{"level":"info","msg":"Received request: DELETE /api/v1/student/2222","time":"2024-08-19T13:53:25+05:30"}
+{"level":"error","msg":"an error occurred fetching the student: student with ID 2222 not found","time":"2024-08-19T13:53:25+05:30"}
+{"level":"info","msg":"http: Server closed","time":"2024-08-19T13:57:31+05:30"}
+{"level":"info","msg":"shutting down gracefully","time":"2024-08-19T13:57:31+05:30"}
+{"level":"info","msg":"setting up our handler","time":"2024-08-19T13:57:37+05:30"}
+{"level":"info","msg":"Received request: POST /api/v1/login","time":"2024-08-19T13:58:07+05:30"}
+{"level":"info","msg":"Received request: DELETE /api/v1/student/2222","time":"2024-08-19T13:58:30+05:30"}
+{"level":"error","msg":"an error occurred fetching the student: student with ID 2222 not found","time":"2024-08-19T13:58:30+05:30"}
+{"level":"info","msg":"http: Server closed","time":"2024-08-19T13:58:45+05:30"}
+{"level":"info","msg":"shutting down gracefully","time":"2024-08-19T13:58:45+05:30"}
