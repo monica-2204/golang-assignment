@@ -21,8 +21,9 @@
     * Transport (internal/transport/middleware.go): This file defines middleware functions for JSON response formatting, logging, request timeouts, get userID and CORS handling in the application.
     * Transport (internal/transport/srudent.go): This file implements HTTP handlers for managing students, including creating, retrieving, updating, and deleting student records, with validation, JWT authentication, and logging.
 
-6. Utils (utils/jwt.go): Utility functions for JWT token generation.
-         (utils/utils.go): Utility functions for extracting userID and token.
+6. Utils 
+    * (utils/jwt.go): Utility functions for JWT token generation.
+    * (utils/utils.go): Utility functions for extracting userID and token.
 
 7. .env : This file has the environment variables required by the application.
 
