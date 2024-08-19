@@ -8,8 +8,8 @@
 
 3. Internal 
     Student
-    (internal/student/student.go): This will handle student-related logic and data models.
-    (internsl/student/login.go): This will authenticate the user and calls a method to generate JWT token.
+    * (internal/student/student.go): This will handle student-related logic and data models.
+    * (internal/student/login.go): This will authenticate the user and calls a method to generate JWT token.
 
 4. Internal
     Database (internal/database/student.go and internal/database/database.go): These files will manage database operations and connections.
