@@ -64,19 +64,3 @@ func main() {
 
 	}
 }
-
-//curl -X GET http://localhost:8080/getStudent/1 -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoidXNlcjEyMyIsImV4cCI6MTcyMzgwOTUxMX0.T15UN2f28tSu-lagsMIcV8u9Qd2bn_PRKmDCWrzoxkU"
-
-//C:\Users\ADMIN\Desktop\golang-assignment>curl -X POST http://localhost:8080/addStudent ^
-//More?  -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoidXNlcjEyMyIsImV4cCI6MTcyMzgyOTcxOH0.cOmkk5WmPoDRKlWP4iZQtV_I508ST3Xz3C48iJYyqIM" ^
-//More? -H "Content-Type: application/json" ^
-//More?  -d "{\"id\":\"22\" , \"name\": \"kavya\", \"email\": \"kavya@gmail.com\", \"age\": 21, \"course\": \"Bsc\"}"
-
-//curl -X DELETE http://localhost:8080/deleteStudent/1 -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoidXNlcjEyMyIsImV4cCI6MTcyMzg3MDcxNn0.MfkdH5hPGeTZAyH2ILowlNnFgJaXh45DVDK8RP0j6XU"
-
-//curl -X PUT http://localhost:8080/updateStudent/22 ^
-//More? -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoidXNlcjEyMyIsImV4cCI6MTcyMzg3OTI3OH0.O47ozTzNTgxjfKC1H-haPGY2Jkr1pyIo_gISM5_cAuY" ^
-//More? -H "Content-Type: application/json" ^
-//More? -d "{\"id\": \"22\",\"name\": \"deepa\", \"email\": \"deepa@gmail.com\",\"age\": 25,\"course\": \"MBA\"}"
-
-//curl -X POST http://localhost:8080/login  -H "Content-Type: application/json" -d "{\"user_id\": \"user123\", \"password\": \"password\"}"
