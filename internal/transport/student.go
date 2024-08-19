@@ -181,7 +181,15 @@ func (h *Handler) DeleteStudent(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err := h.Service.DeleteStudent(r.Context(), studentID)
+	// Check if the student exists
+	_, err := h.Service.GetStudent(r.Context(), studentID)
+	if err != nil {
+		http.Error(w, "Student not found", http.StatusNotFound)
+		return
+	}
+
+	// Proceed to delete the student
+	err = h.Service.DeleteStudent(r.Context(), studentID)
 	if err != nil {
 		http.Error(w, "Failed to delete student", http.StatusInternalServerError)
 		return
