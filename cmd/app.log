@@ -10,3 +10,52 @@
 {"level":"error","msg":"an error occurred fetching the student: student with ID 2222 not found","time":"2024-08-19T13:58:30+05:30"}
 {"level":"info","msg":"http: Server closed","time":"2024-08-19T13:58:45+05:30"}
 {"level":"info","msg":"shutting down gracefully","time":"2024-08-19T13:58:45+05:30"}
+{"level":"info","msg":"setting up our handler","time":"2024-08-19T14:09:00+05:30"}
+{"level":"info","msg":"http: Server closed","time":"2024-08-19T14:09:19+05:30"}
+{"level":"info","msg":"shutting down gracefully","time":"2024-08-19T14:09:19+05:30"}
+{"level":"info","msg":"setting up our handler","time":"2024-08-19T14:09:34+05:30"}
+{"level":"info","msg":"Received request: POST /login","time":"2024-08-19T14:10:14+05:30"}
+{"level":"info","msg":"Received request: DELETE /deleteStudent/2222","time":"2024-08-19T14:11:19+05:30"}
+{"level":"error","msg":"an error occurred fetching the student: student with ID 2222 not found","time":"2024-08-19T14:11:19+05:30"}
+{"level":"info","msg":"Received request: DELETE /deleteStudent/15","time":"2024-08-19T14:11:41+05:30"}
+{"level":"info","msg":"Received request: POST /addStudent","time":"2024-08-19T14:15:47+05:30"}
+{"level":"info","msg":"userID: user123","time":"2024-08-19T14:15:47+05:30"}
+{"level":"info","msg":"Creating student: CreatedBy=user123, UpdatedBy=user123","time":"2024-08-19T14:15:47+05:30"}
+{"level":"info","msg":"http: Server closed","time":"2024-08-19T14:16:31+05:30"}
+{"level":"info","msg":"shutting down gracefully","time":"2024-08-19T14:16:31+05:30"}
+{"level":"info","msg":"setting up our handler","time":"2024-08-19T14:16:52+05:30"}
+{"level":"info","msg":"http: Server closed","time":"2024-08-19T14:17:17+05:30"}
+{"level":"info","msg":"shutting down gracefully","time":"2024-08-19T14:17:17+05:30"}
+{"level":"info","msg":"setting up our handler","time":"2024-08-19T14:17:29+05:30"}
+{"level":"info","msg":"Received request: POST /login","time":"2024-08-19T14:18:40+05:30"}
+{"level":"info","msg":"http: Server closed","time":"2024-08-19T14:52:59+05:30"}
+{"level":"info","msg":"shutting down gracefully","time":"2024-08-19T14:52:59+05:30"}
+{"level":"info","msg":"setting up our handler","time":"2024-08-19T15:26:43+05:30"}
+{"level":"info","msg":"Received request: POST /login","time":"2024-08-19T15:27:18+05:30"}
+{"level":"info","msg":"Received request: GET /getStudent/1","time":"2024-08-19T15:28:11+05:30"}
+{"level":"error","msg":"an error occurred fetching the student: student with ID 1 not found","time":"2024-08-19T15:28:11+05:30"}
+{"level":"info","msg":"Received request: GET /getStudent/12","time":"2024-08-19T15:28:24+05:30"}
+{"level":"info","msg":"Received request: GET /getStudent/22","time":"2024-08-19T15:28:55+05:30"}
+{"level":"info","msg":"Received request: POST /addStudent","time":"2024-08-19T19:19:44+05:30"}
+{"level":"info","msg":"Received request: POST /addStudent","time":"2024-08-19T19:20:16+05:30"}
+{"level":"error","msg":"Invalid authorization header format","time":"2024-08-19T19:20:16+05:30"}
+{"level":"info","msg":"Received request: POST /addStudent","time":"2024-08-19T19:20:49+05:30"}
+{"level":"info","msg":"Received request: POST /addStudent","time":"2024-08-19T19:21:47+05:30"}
+{"level":"info","msg":"userID: user123","time":"2024-08-19T19:21:47+05:30"}
+{"level":"info","msg":"Creating student: CreatedBy=user123, UpdatedBy=user123","time":"2024-08-19T19:21:47+05:30"}
+{"level":"info","msg":"http: Server closed","time":"2024-08-19T19:28:27+05:30"}
+{"level":"info","msg":"shutting down gracefully","time":"2024-08-19T19:28:27+05:30"}
+{"level":"info","msg":"setting up our handler","time":"2024-08-19T19:28:32+05:30"}
+{"level":"info","msg":"Received request: POST /login","time":"2024-08-19T19:29:29+05:30"}
+{"level":"info","msg":"Received request: GET /getStudent/1","time":"2024-08-19T19:31:46+05:30"}
+{"level":"error","msg":"an error occurred fetching the student: student with ID 1 not found","time":"2024-08-19T19:31:46+05:30"}
+{"level":"info","msg":"Received request: GET /getStudent/8","time":"2024-08-19T19:32:22+05:30"}
+{"level":"info","msg":"Received request: DELETE /deleteStudent/1","time":"2024-08-19T19:35:00+05:30"}
+{"level":"error","msg":"an error occurred fetching the student: student with ID 1 not found","time":"2024-08-19T19:35:00+05:30"}
+{"level":"info","msg":"Received request: DELETE /deleteStudent/12","time":"2024-08-19T19:35:40+05:30"}
+{"level":"info","msg":"Received request: PUT /updateStudent/8","time":"2024-08-19T19:38:09+05:30"}
+{"level":"error","msg":"Error parsing JWT token: token is malformed: token contains an invalid number of segments","time":"2024-08-19T19:38:09+05:30"}
+{"level":"error","msg":"Invalid JWT token","time":"2024-08-19T19:38:09+05:30"}
+{"level":"info","msg":"Received request: PUT /updateStudent/8","time":"2024-08-19T19:40:32+05:30"}
+{"level":"info","msg":"http: Server closed","time":"2024-08-19T20:32:23+05:30"}
+{"level":"info","msg":"shutting down gracefully","time":"2024-08-19T20:32:23+05:30"}

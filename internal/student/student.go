@@ -18,7 +18,6 @@ var (
 	ErrNotImplemented    = errors.New("not implemented")
 )
 
-// Student - defines our student structure
 type Student struct {
 	ID        string    `json:"id" db:"id"`
 	CreatedBy string    `json:"created_by" db:"created_by"`
@@ -31,8 +30,6 @@ type Student struct {
 	Course    string    `json:"course" db:"course"`
 }
 
-// StudentStore - defines the interface we need our student storage
-// layer to implement
 type StudentStore interface {
 	GetStudent(context.Context, string) (Student, error)
 	PostStudent(context.Context, Student) (Student, error)
@@ -41,12 +38,10 @@ type StudentStore interface {
 	Ping(context.Context) error
 }
 
-// Service - the struct for our student service
 type Service struct {
 	Store StudentStore
 }
 
-// NewService - returns a new student service
 func NewService(store StudentStore) *Service {
 	return &Service{
 		Store: store,
@@ -88,7 +83,6 @@ func (s *Service) DeleteStudent(ctx context.Context, ID string) error {
 	return err
 }
 
-// ReadyCheck - a function that tests we are functionally ready to serve requests
 func (s *Service) ReadyCheck(ctx context.Context) error {
 	log.Info("Checking readiness")
 	return s.Store.Ping(ctx)

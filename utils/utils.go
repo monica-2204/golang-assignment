@@ -6,7 +6,6 @@ import (
 	"strings"
 )
 
-// getCurrentUserID extracts the user ID from the context
 func GetCurrentUserID(ctx context.Context) string {
 	if userID, ok := ctx.Value("userID").(string); ok {
 		return userID
@@ -14,7 +13,6 @@ func GetCurrentUserID(ctx context.Context) string {
 	return ""
 }
 
-// extractTokenFromHeader extracts the JWT token from the Authorization header.
 func ExtractTokenFromHeader(r *http.Request) string {
 
 	authHeader := r.Header.Get("Authorization")

@@ -7,7 +7,6 @@ import (
 	"github.com/joho/godotenv"
 )
 
-// Config holds configuration values
 type Config struct {
 	DatabaseUser     string
 	DatabasePassword string
@@ -19,7 +18,6 @@ type Config struct {
 	LogLevel         string
 }
 
-// LoadConfig loads configuration from environment variables
 func LoadConfig() (*Config, error) {
 	if err := godotenv.Load(); err != nil {
 		log.Println("No .env file found, using default or environment variables")
@@ -39,7 +37,6 @@ func LoadConfig() (*Config, error) {
 	return cfg, nil
 }
 
-// getEnv retrieves the value of an environment variable or returns a default value if not set
 func getEnv(key, defaultValue string) string {
 	if value, exists := os.LookupEnv(key); exists {
 		return value

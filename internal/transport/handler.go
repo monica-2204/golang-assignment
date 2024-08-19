@@ -35,6 +35,8 @@ func NewHandler(service StudentService) *Handler {
 	h.Router.Use(JSONMiddleware)
 	h.Router.Use(LoggingMiddleware)
 	h.Router.Use(TimeoutMiddleware)
+	h.Router.Use(CORSMiddleware)
+
 	// Set up the routes
 	h.mapRoutes()
 
@@ -53,12 +55,12 @@ func NewHandler(service StudentService) *Handler {
 func (h *Handler) mapRoutes() {
 	h.Router.HandleFunc("/alive", h.AliveCheck).Methods("GET")
 	h.Router.HandleFunc("/ready", h.ReadyCheck).Methods("GET")
-	h.Router.HandleFunc("/api/v1/student", JWTAuth(UserIDMiddleware(h.PostStudent))).Methods("POST")
-	h.Router.HandleFunc("/api/v1/student/{id}", JWTAuth(h.GetStudent)).Methods("GET")
-	h.Router.HandleFunc("/api/v1/student/{id}", JWTAuth(UserIDMiddleware(h.UpdateStudent))).Methods("PUT")
-	h.Router.HandleFunc("/api/v1/student/{id}", JWTAuth(h.DeleteStudent)).Methods("DELETE")
+	h.Router.HandleFunc("/addStudent", JWTAuth(UserIDMiddleware(h.PostStudent))).Methods("POST")
+	h.Router.HandleFunc("/getStudent/{id}", JWTAuth(h.GetStudent)).Methods("GET")
+	h.Router.HandleFunc("/updateStudent/{id}", JWTAuth(UserIDMiddleware(h.UpdateStudent))).Methods("PUT")
+	h.Router.HandleFunc("/deleteStudent/{id}", JWTAuth(h.DeleteStudent)).Methods("DELETE")
 
-	h.Router.HandleFunc("/api/v1/login", h.Login).Methods("POST")
+	h.Router.HandleFunc("/login", h.Login).Methods("POST")
 }
 
 func (h *Handler) AliveCheck(w http.ResponseWriter, r *http.Request) {

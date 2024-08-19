@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/golang-jwt/jwt"
+	"github.com/rs/cors"
 	log "github.com/sirupsen/logrus"
 )
 
@@ -32,6 +33,8 @@ func TimeoutMiddleware(next http.Handler) http.Handler {
 	})
 }
 
+// used to get userID from the token and to assign that userID to created_by and updated_by attributes
+// so this function is used only in the POST and PUT methods
 func UserIDMiddleware(next http.HandlerFunc) http.HandlerFunc {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		tokenString := util.ExtractTokenFromHeader(r)
@@ -54,4 +57,15 @@ func UserIDMiddleware(next http.HandlerFunc) http.HandlerFunc {
 		ctx := context.WithValue(r.Context(), "userID", claims.UserID)
 		next.ServeHTTP(w, r.WithContext(ctx))
 	})
+}
+
+func CORSMiddleware(next http.Handler) http.Handler {
+	c := cors.New(cors.Options{
+		AllowedOrigins:   []string{"*"},
+		AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
+		AllowedHeaders:   []string{"Content-Type", "Authorization"},
+		AllowCredentials: true,
+	})
+
+	return c.Handler(next)
 }

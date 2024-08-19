@@ -8,7 +8,7 @@ import (
 
 	"golang-assignment/internal/student"
 
-	logrus "github.com/sirupsen/logrus"
+	log "github.com/sirupsen/logrus"
 )
 
 type StudentRow struct {
@@ -53,7 +53,7 @@ func (s *StudentStore) GetStudent(ctx context.Context, id string) (student.Stude
 
 func (d *StudentStore) PostStudent(ctx context.Context, stud student.Student) (student.Student, error) {
 
-	logrus.Printf("Creating student: CreatedBy=%s, UpdatedBy=%s", stud.CreatedBy, stud.UpdatedBy)
+	log.Printf("Creating student: CreatedBy=%s, UpdatedBy=%s", stud.CreatedBy, stud.UpdatedBy)
 
 	stud.CreatedOn = time.Now()
 	stud.UpdatedOn = stud.CreatedOn
@@ -72,7 +72,6 @@ func (d *StudentStore) UpdateStudent(ctx context.Context, id string, stud studen
 		return student.Student{}, fmt.Errorf("mismatching student ID")
 	}
 
-	// Update only necessary fields
 	query := `UPDATE students SET
 		created_by = :created_by,
         updated_by = :updated_by,
@@ -83,7 +82,6 @@ func (d *StudentStore) UpdateStudent(ctx context.Context, id string, stud studen
         course = :course
         WHERE id = :id`
 
-	// Execute the query
 	result, err := d.DB.NamedExecContext(ctx, query, stud)
 	if err != nil {
 		return student.Student{}, fmt.Errorf("failed to update student: %w", err)
