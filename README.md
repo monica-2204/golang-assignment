@@ -2,7 +2,11 @@
 
 ## The directory structure and the role of each file:
 
-1. Main (main.go): Entry point of the application.
+1. cmd 
+    * (main.go): Entry point of the application.
+    * .env : This file has the environment variables required by the application.
+    * app.log : This file stores events, errors, and other messages that are logged by the application.
+
 
 2. Config (config/config.go): This file will manage database configuration settings.
 
@@ -24,8 +28,5 @@
 6. Utils 
     * (utils/jwt.go): Utility functions for JWT token generation.
     * (utils/utils.go): Utility functions for extracting userID and token.
-
-7. .env : This file has the environment variables required by the application.
-
-8. app.log : This file stores events, errors, and other messages that are logged by the application.
+    
 
