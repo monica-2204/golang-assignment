@@ -11,7 +11,6 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-// Run - sets up our application
 func Run() error {
 
 	log.Info("Setting up our application")

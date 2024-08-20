@@ -83,7 +83,6 @@ func (h *Handler) ReadyCheck(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-// Serve - gracefully serves our newly set up handler function
 func (h *Handler) Serve() error {
 	go func() {
 		if err := h.Server.ListenAndServe(); err != nil {
