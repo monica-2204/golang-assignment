@@ -21,7 +21,7 @@ type StudentService interface {
 	UpdateStudent(ctx context.Context, ID string, newStu student.Student) (student.Student, error)
 	DeleteStudent(ctx context.Context, ID string) error
 	ReadyCheck(ctx context.Context) error
-	AuthenticateUser(ctx context.Context, userID, password string) (student.User, error) // Update here
+	AuthenticateUser(ctx context.Context, userID, password string) (student.User, error)
 	GenerateJWT(user student.User) (string, error)
 }
 

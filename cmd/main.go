@@ -15,7 +15,7 @@ import (
 func Run() error {
 
 	log.Info("Setting up our application")
-	// Set up logging format to JSON and output only to a file
+
 	logFile, err := os.OpenFile("app.log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
 	if err != nil {
 		log.Fatalf("Failed to open log file: %v", err)

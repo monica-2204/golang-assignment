@@ -59,3 +59,24 @@
 {"level":"info","msg":"Received request: PUT /updateStudent/8","time":"2024-08-19T19:40:32+05:30"}
 {"level":"info","msg":"http: Server closed","time":"2024-08-19T20:32:23+05:30"}
 {"level":"info","msg":"shutting down gracefully","time":"2024-08-19T20:32:23+05:30"}
+{"level":"info","msg":"setting up our handler","time":"2024-08-20T06:58:22+05:30"}
+{"level":"info","msg":"Received request: POST /login","time":"2024-08-20T06:59:15+05:30"}
+{"level":"info","msg":"Received request: GET /getStudent/1","time":"2024-08-20T06:59:47+05:30"}
+{"level":"error","msg":"an error occurred fetching the student: student with ID 1 not found","time":"2024-08-20T06:59:47+05:30"}
+{"level":"info","msg":"Received request: GET /getStudent/22","time":"2024-08-20T07:00:40+05:30"}
+{"level":"info","msg":"Received request: GET /getStudent/22","time":"2024-08-20T07:00:47+05:30"}
+{"level":"error","msg":"Error parsing JWT token: token signature is invalid: signature is invalid","time":"2024-08-20T07:00:47+05:30"}
+{"level":"error","msg":"Invalid JWT token","time":"2024-08-20T07:00:47+05:30"}
+{"level":"info","msg":"http: Server closed","time":"2024-08-20T07:02:58+05:30"}
+{"level":"info","msg":"shutting down gracefully","time":"2024-08-20T07:02:58+05:30"}
+{"level":"info","msg":"setting up our handler","time":"2024-08-20T07:03:24+05:30"}
+{"level":"info","msg":"Received request: POST /login","time":"2024-08-20T07:03:37+05:30"}
+{"level":"info","msg":"Received request: GET /getStudent/22","time":"2024-08-20T07:04:06+05:30"}
+{"level":"error","msg":"Error parsing JWT token: token signature is invalid: signature is invalid","time":"2024-08-20T07:04:06+05:30"}
+{"level":"error","msg":"Invalid JWT token","time":"2024-08-20T07:04:06+05:30"}
+{"level":"info","msg":"Received request: GET /getStudent/22","time":"2024-08-20T07:04:18+05:30"}
+{"level":"info","msg":"Received request: GET /getStudent/22","time":"2024-08-20T07:04:22+05:30"}
+{"level":"error","msg":"Error parsing JWT token: token signature is invalid: signature is invalid","time":"2024-08-20T07:04:22+05:30"}
+{"level":"error","msg":"Invalid JWT token","time":"2024-08-20T07:04:22+05:30"}
+{"level":"info","msg":"http: Server closed","time":"2024-08-20T07:07:54+05:30"}
+{"level":"info","msg":"shutting down gracefully","time":"2024-08-20T07:07:54+05:30"}

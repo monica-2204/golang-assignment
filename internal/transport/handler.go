@@ -66,7 +66,7 @@ func (h *Handler) mapRoutes() {
 func (h *Handler) AliveCheck(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 	w.WriteHeader(http.StatusOK)
-	if err := json.NewEncoder(w).Encode(Response{Message: "I am Alive!"}); err != nil {
+	if err := json.NewEncoder(w).Encode(Response{Message: "Server is Alive!"}); err != nil {
 		panic(err)
 	}
 }
@@ -78,7 +78,7 @@ func (h *Handler) ReadyCheck(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.WriteHeader(http.StatusOK)
-	if err := json.NewEncoder(w).Encode(Response{Message: "I am Ready!"}); err != nil {
+	if err := json.NewEncoder(w).Encode(Response{Message: "Server is Ready!"}); err != nil {
 		panic(err)
 	}
 }
