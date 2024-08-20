@@ -12,19 +12,16 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-// Handler - stores pointer to our student service
 type Handler struct {
 	Router  *mux.Router
 	Service StudentService
 	Server  *http.Server
 }
 
-// Response object
 type Response struct {
 	Message string `json:"message"`
 }
 
-// NewHandler - returns a pointer to a Handler
 func NewHandler(service StudentService) *Handler {
 	log.Info("setting up our handler")
 	h := &Handler{
@@ -37,7 +34,6 @@ func NewHandler(service StudentService) *Handler {
 	h.Router.Use(TimeoutMiddleware)
 	h.Router.Use(CORSMiddleware)
 
-	// Set up the routes
 	h.mapRoutes()
 
 	h.Server = &http.Server{
@@ -47,11 +43,10 @@ func NewHandler(service StudentService) *Handler {
 		IdleTimeout:  time.Second * 60,
 		Handler:      h.Router,
 	}
-	// Return our handler
+
 	return h
 }
 
-// mapRoutes - sets up all the routes for our application
 func (h *Handler) mapRoutes() {
 	h.Router.HandleFunc("/alive", h.AliveCheck).Methods("GET")
 	h.Router.HandleFunc("/ready", h.ReadyCheck).Methods("GET")
